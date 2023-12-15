@@ -1,6 +1,6 @@
 from setuptools import setup
 
-package_name = 'nav2_wfd'
+package_name = 'wavefront_frontier'
 
 setup(
     name=package_name,
@@ -13,14 +13,14 @@ setup(
     ],
     install_requires=['setuptools'],
     zip_safe=True,
-    maintainer='Sean Regan',
+    maintainer='Elvin Alberts',
     maintainer_email='',
     description='Wavefront Frontier Detector for ROS2 Navigation2',
     license='MIT License',
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-        	'explore = nav2_wfd.wavefront_frontier:main',
+        	'get_frontier_service = wavefront_frontier.frontier_service:main',
         ],
     },
 )

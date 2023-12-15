@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>nav2_wfd</name>
+  <name>wavefront_frontier</name>
   <version>0.0.1</version>
   <description>Wavefront Frontier Detector for ROS2 Navigation2</description>
-  <maintainer email="">Sean Regan</maintainer>
+  <maintainer email="nothing@gmail.com">Elvin Alberts</maintainer>
   <license>MIT License</license>
 
   <test_depend>ament_copyright</test_depend>
