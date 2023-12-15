@@ -4,15 +4,9 @@
 
 
 ## Overview
-
-- Intended to work with ROS2's Nav2 stack
   
 - Computes a list of Frontier centroids from the currently available Occupancy Grid
   
-- Invoke's Nav2's waypoint follower to move the robot to the Frontiers
-  
-- Upon reaching the waypoint destinations, the latest Occupancy Grid will be evaluated for new Frontiers and continues to plot new waypoints until all Frontiers have been discovered
-
 
 ## Instructions
 
@@ -23,8 +17,8 @@ For basic/general build instructions follow this tutorial: https://index.ros.org
 - git clone the project into your colcon workspace's "src" directory
 - In your colcon workspace root directory run:
   
-        rosdep install -i --from-path src --rosdistro foxy -y
-        colcon build --packages-select nav2_wfd
+        rosdep install -i --from-path src --rosdistro humble -y
+        colcon build --packages-select wavefront_frontier
 
 - Setup development path:
 
@@ -32,12 +26,7 @@ For basic/general build instructions follow this tutorial: https://index.ros.org
 
 
 ## Running
-Works with Nav2's Turtlebot Simulation: https://navigation.ros.org/getting_started/index.html#running-the-example   be sure to use "slam:=True" when launching "tb3_simulation_launch.py" such as:
 
-    ros2 launch nav2_bringup tb3_simulation_launch.py slam:=True
-
-Once the Turtlebot Simulation has launch, in a separate window run:
-    
-    ros2 run nav2_wfd explore
+    ros2 run ros2 run wavefront_frontier get_frontier_service 
 
 
