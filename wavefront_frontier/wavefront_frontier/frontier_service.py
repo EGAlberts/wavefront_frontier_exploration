@@ -17,16 +17,15 @@ import sys
 
 from geometry_msgs.msg import PoseStamped
 
-from nav2_msgs.srv import ManageLifecycleNodes
 
-from nav_msgs.msg import Odometry
+from rclpy.executors import ExternalShutdownException
 
 from wavefront_frontier_msgs.srv import GetFurthestFrontier
 
 import rclpy
-from rclpy.node import Node
-from rclpy.qos import QoSDurabilityPolicy, QoSHistoryPolicy, QoSReliabilityPolicy
-from rclpy.qos import QoSProfile
+from rclpy.lifecycle import Node
+from rclpy.lifecycle import Node, State, TransitionCallbackReturn
+
 
 from enum import Enum
 
@@ -258,8 +257,15 @@ class GetFrontierService(Node):
        
         self.goal_handle = None
 
-        self.srv = self.create_service(GetFurthestFrontier, 'get_furthest_frontier', self.get_frontier_callback)
 
+    def on_activate(self, state: State):
+        self.srv = self.create_service(GetFurthestFrontier, 'get_furthest_frontier', self.get_frontier_callback)
+        return TransitionCallbackReturn.SUCCESS
+    
+    def on_deactivate(self, state: State):
+        self.get_logger().info('on_deactivate() is called.')
+        
+        return TransitionCallbackReturn.SUCCESS if self.destroy_service(self.srv) else TransitionCallbackReturn.ERROR
 
 
     def get_frontier_callback(self, request, response):
@@ -296,15 +302,24 @@ class GetFrontierService(Node):
 
 
 def main(argv=sys.argv[1:]):
+
     rclpy.init()
 
  
     get_frontier_service = GetFrontierService()
 
 
-    rclpy.spin(get_frontier_service)
-    
-    rclpy.shutdown()
+
+    try:
+        rclpy.spin(get_frontier_service)
+    except (KeyboardInterrupt, ExternalShutdownException):
+        pass
+    finally:
+        # Destroy the node explicitly
+        # (optional - Done automatically when node is garbage collected)
+        get_frontier_service.destroy_node()
+        rclpy.try_shutdown()
+
 
 
 
